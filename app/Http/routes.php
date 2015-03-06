@@ -19,14 +19,14 @@ use Carbon\Carbon;
 /**
  * Send  a giphy in response to certain words in the channel
  */
-Route::post('/listen', function()
+Route::get('/listen', function()
 {
   $query = Input::get('trigger_word');
 
   if($query)
   {
-      $gifs = json_decode(file_get_contents('http://api.giphy.com/v1/gifs/search?q='.urlencode($query).'&api_key='. env('GIPHY_KEY') .'&limit=1'));
-      $gif = $gifs->data[0]->images->fixed_height->url;
+      $gifs = json_decode(file_get_contents('http://api.giphy.com/v1/gifs/random?tag='.urlencode($query).'&api_key='. env('GIPHY_KEY') ));
+      $gif = $gifs->data->image_url;
       $messageText = "Did someone mention *".$query."*?".PHP_EOL.$gif;
       $config =  ['username' => env('DEVTEAM_SLACK_USERNAME'), 'token' => env('DEVTEAM_SLACK_TOKEN')];
       $client = PhlackClient::factory($config);
