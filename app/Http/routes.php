@@ -19,7 +19,7 @@ use Carbon\Carbon;
 /**
  * Send  a giphy in response to certain words in the channel
  */
-Route::get('/listen', function()
+Route::post('/listen', function()
 {
   $query = Input::get('trigger_word');
 
